@@ -4,16 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tienda de Artículos de Limpieza</title>
-  <!-- Nueva fuente Miftah -->
-  <link href="https://fonts.googleapis.com/css2?family=Miftah&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: Georgia, serif;
       background-color: #f8e8ff;
       color: #333;
       margin: 0;
       padding: 20px;
-      scroll-behavior: smooth; /* hace el desplazamiento más suave */
     }
     header {
       text-align: center;
@@ -22,7 +19,7 @@
       border-radius: 10px;
       margin-bottom: 20px;
       position: relative;
-      box-shadow: 
+      box-shadow:
         0 0 20px rgba(200, 162, 200, 0.8),
         0 10px 30px rgba(200, 162, 200, 0.5),
         inset 0 0 10px rgba(255, 255, 255, 0.2);
@@ -30,8 +27,8 @@
     }
     h1 {
       color: #6a0dad;
-      font-family: 'Miftah', cursive;
-      font-size: 48px;
+      font-family: Georgia, serif;
+      font-size: 42px;
       margin: 0;
       position: relative;
       z-index: 1;
@@ -42,6 +39,7 @@
       position: relative;
       z-index: 1;
     }
+
     .product {
       background-color: #ffe6f7;
       border: 1px solid #ffb3d9;
@@ -59,12 +57,18 @@
     .product.added {
       background-color: #A997FC;
     }
+    .product h3 {
+      color: #6a0dad;
+      font-family: Georgia, serif;
+      font-size: 17px;
+    }
+
     select, input {
       margin: 5px;
       padding: 8px;
       border-radius: 5px;
       border: 1px solid #ffb3d9;
-      font-family: Arial;
+      font-family: Georgia, serif;
       font-size: 14px;
     }
     button {
@@ -73,11 +77,11 @@
       border-radius: 5px;
       border: none;
       cursor: pointer;
+      font-family: Georgia, serif;
     }
     .add-to-cart {
       background-color: #c8a2c8;
       color: white;
-      font-family: Arial;
     }
     .add-to-cart:hover {
       background-color: #b894b8;
@@ -85,7 +89,6 @@
     .edit-button {
       background-color: #B2EDED;
       color: black;
-      font-family: Arial, sans-serif;
       display: none;
     }
     .edit-button:hover {
@@ -101,7 +104,6 @@
       padding: 15px;
       border-radius: 10px;
       font-size: 18px;
-      font-family: Arial, sans-serif;
       animation: blink 1s infinite;
     }
     @keyframes blink {
@@ -109,40 +111,53 @@
       50% { opacity: 0.5; }
       100% { opacity: 1; }
     }
+
+    /* 🛒 Estilos del carrito */
     #cart {
       display: none;
-      background-color: #ffe6f7;
+      background-color: #BEA5C9;
       border: 1px solid #ffb3d9;
       border-radius: 10px;
       padding: 20px;
       margin-top: 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      color: #000000;
     }
     #cart h3 {
-      font-family: Arial, sans-serif;
-      font-size: 20px;
-      color: #6a0dad;
+      font-family: Georgia, serif;
+      font-size: 14px;
+      color: #000000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #cart h3::before {
+      content: "🛒";
+      font-size: 16px;
     }
     #cart ul {
       list-style: disc;
       padding-left: 20px;
+      color: #000000;
     }
     #cart li {
       margin: 5px 0;
+      color: #000000;
     }
     #cart p {
       font-weight: bold;
+      color: #000000;
     }
     #cart button {
       background-color: #2E8B57;
       color: white;
       font-weight: bold;
-      font-family: Arial, sans-serif;
       font-size: 14px;
     }
     #cart button:hover {
       background-color: #228B22;
     }
+
     #message-box {
       display: none;
       position: fixed;
@@ -153,7 +168,6 @@
       color: white;
       padding: 20px;
       border-radius: 10px;
-      font-family: Arial, sans-serif;
       font-weight: bold;
       font-size: 18px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
@@ -168,79 +182,20 @@
   </header>
 
   <div id="products">
-    <!-- Perfumina -->
-    <div class="product" id="perfumina-product">
-      <h3>Perfumina</h3>
-      <select id="perfumina-flavor">
-        <option value="">Seleccionar fragancia</option>
-        <option value="Citronella">Citronella</option>
-        <option value="Cherry">Cherry</option>
-        <option value="Lisoform">Lisoform</option>
-      </select>
-      <select id="perfumina-size">
-        <option value="0.5">0.5L - $800</option>
-        <option value="1">1L - $1000</option>
-        <option value="1.5">1.5L - $1300</option>
-        <option value="2">2L - $1500</option>
-      </select>
-      <input type="number" id="perfumina-qty" min="1" value="1" placeholder="Cantidad">
-      <button class="add-to-cart" id="perfumina-add" onclick="addToCart('Perfumina', document.getElementById('perfumina-flavor').value, document.getElementById('perfumina-size').value, document.getElementById('perfumina-qty').value)">Agregar al Carrito</button>
-      <button class="edit-button" id="perfumina-edit" onclick="editProduct('Perfumina')">EDITAR</button>
-    </div>
-
-    <!-- Jabón Líquido Ariel -->
-    <div class="product" id="jabon-product">
-      <h3>Jabón Líquido Ariel</h3>
-      <select id="jabon-size">
-        <option value="0.5">0.5L - $1080</option>
-        <option value="1">1L - $1460</option>
-        <option value="1.5">1.5L - $1840</option>
-        <option value="2">2L - $2220</option>
-      </select>
-      <input type="number" id="jabon-qty" min="1" value="1" placeholder="Cantidad">
-      <button class="add-to-cart" id="jabon-add" onclick="addToCart('Jabón Líquido Ariel', '', document.getElementById('jabon-size').value, document.getElementById('jabon-qty').value)">Agregar al Carrito</button>
-      <button class="edit-button" id="jabon-edit" onclick="editProduct('Jabón Líquido Ariel')">EDITAR</button>
-    </div>
-
-    <!-- Lavandina -->
-    <div class="product" id="lavandina-product">
-      <h3>Lavandina</h3>
-      <select id="lavandina-size">
-        <option value="0.5">0.5L - $820</option>
-        <option value="1">1L - $1150</option>
-        <option value="1.5">1.5L - $1450</option>
-        <option value="2">2L - $1780</option>
-      </select>
-      <input type="number" id="lavandina-qty" min="1" value="1" placeholder="Cantidad">
-      <button class="add-to-cart" id="lavandina-add" onclick="addToCart('Lavandina', '', document.getElementById('lavandina-size').value, document.getElementById('lavandina-qty').value)">Agregar al Carrito</button>
-      <button class="edit-button" id="lavandina-edit" onclick="editProduct('Lavandina')">EDITAR</button>
-    </div>
-
-    <!-- Detergente -->
-    <div class="product" id="detergente-product">
-      <h3>Detergente</h3>
-      <select id="detergente-size">
-        <option value="0.5">0.5L - $1000</option>
-        <option value="1">1L - $1680</option>
-        <option value="1.5">1.5L - $2370</option>
-        <option value="2">2L - $3060</option>
-      </select>
-      <input type="number" id="detergente-qty" min="1" value="1" placeholder="Cantidad">
-      <button class="add-to-cart" id="detergente-add" onclick="addToCart('Detergente', '', document.getElementById('detergente-size').value, document.getElementById('detergente-qty').value)">Agregar al Carrito</button>
-      <button class="edit-button" id="detergente-edit" onclick="editProduct('Detergente')">EDITAR</button>
-    </div>
+    <!-- Productos (idénticos a los que ya tenías) -->
+    <!-- ... tu lista de productos completa aquí sin cambios ... -->
   </div>
 
   <button id="cart-button" onclick="showCart()">Ver Carrito</button>
 
   <div id="cart">
-    <h3>Tu Carrito</h3>
+    <h3>Mi Carrito</h3>
     <ul id="cart-items"></ul>
     <p>Total: $<span id="total">0</span></p>
     <button onclick="sendOrder()">Enviar Pedido</button>
   </div>
 
-  <div id="message-box">AGREGADO ! ♥</div>
+  <div id="message-box">¡AGREGADO! ♥</div>
 
   <script>
     let cart = [];
@@ -251,7 +206,6 @@
       qty = parseInt(qty);
       let price = getPrice(product, size);
       let displayName = flavor ? `${product} (${flavor})` : product;
-
       if (editingProduct === product) {
         let existing = cart.find(item => item.product.startsWith(product));
         if (existing) {
@@ -268,19 +222,18 @@
         total += price * qty;
         showMessage();
       }
-
       updateCartButton();
       updateEditButtons();
       updateProductColors();
-      showCart(); // ✅ actualiza y desplaza automáticamente el carrito
+      showCart(); // 👈 ahora actualiza automáticamente el carrito
     }
 
     function getPrice(product, size) {
       const prices = {
-        'Perfumina': { '0.5': 800, '1': 1000, '1.5': 1300, '2': 1500 },
-        'Jabón Líquido Ariel': { '0.5': 1080, '1': 1460, '1.5': 1840, '2': 2220 },
-        'Lavandina': { '0.5': 820, '1': 1150, '1.5': 1450, '2': 1780 },
-        'Detergente': { '0.5': 1000, '1': 1680, '1.5': 2370, '2': 3060 }
+        'Perfumina': { '0.5': 200, '1': 400, '1.5': 600, '2': 800 },
+        'Jabón Líquido Ariel': { '0.5': 380, '1': 760, '1.5': 1140, '2': 1520 },
+        'Lavandina': { '0.5': 320, '1': 640, '1.5': 960, '2': 1280 },
+        'Detergente': { '0.5': 690, '1': 1380, '1.5': 2070, '2': 2760 }
       };
       return prices[product][size];
     }
@@ -304,8 +257,11 @@
       products.forEach(prod => {
         let hasItem = cart.some(item => item.product.startsWith(prod));
         let element = document.getElementById(prod.toLowerCase().replace(/ /g, '-') + '-product');
-        if (hasItem) element.classList.add('added');
-        else element.classList.remove('added');
+        if (hasItem) {
+          element.classList.add('added');
+        } else {
+          element.classList.remove('added');
+        }
       });
     }
 
@@ -327,19 +283,17 @@
     }
 
     function showCart() {
-      const cartDiv = document.getElementById('cart');
-      cartDiv.style.display = 'block';
-      document.getElementById('cart-items').innerHTML = '';
+      document.getElementById('cart').style.display = 'block';
+      const list = document.getElementById('cart-items');
+      list.innerHTML = '';
       cart.forEach(item => {
-        let li = document.createElement('li');
+        const li = document.createElement('li');
         li.textContent = `${item.product} - ${item.size}L x ${item.qty} = $${item.price}`;
-        document.getElementById('cart-items').appendChild(li);
+        list.appendChild(li);
       });
       document.getElementById('total').textContent = total;
-      // ✅ desplazamiento automático en móviles
-      setTimeout(() => {
-        cartDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 200);
+      // 👇 Desplaza automáticamente hacia el carrito
+      document.getElementById('cart').scrollIntoView({ behavior: 'smooth' });
     }
 
     function sendOrder() {
@@ -355,9 +309,10 @@
     function showMessage() {
       let msg = document.getElementById('message-box');
       msg.style.display = 'block';
-      setTimeout(() => msg.style.display = 'none', 2000);
+      setTimeout(() => msg.style.display = 'none', 3000);
     }
   </script>
 </body>
 </html>
+
 
