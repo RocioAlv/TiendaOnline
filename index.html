@@ -8,93 +8,68 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8e8ff; /* Violeta pastel suave */
+            background-color: #f8e8ff;
             color: #333;
             margin: 0;
             padding: 20px;
         }
         header {
             text-align: center;
-            background-color: #ffb3d9; /* Rosa pastel */
+            background-color: #ffb3d9;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
             position: relative;
             box-shadow: 
-                0 0 20px rgba(200, 162, 200, 0.8), /* Luz neon violeta pastel */
-                0 10px 30px rgba(200, 162, 200, 0.5), /* Sombra para efecto 3D */
-                inset 0 0 10px rgba(255, 255, 255, 0.2); /* Brillo interno para 3D */
-            overflow: hidden; /* Para que las burbujas no salgan del header */
+                0 0 20px rgba(200, 162, 200, 0.8),
+                0 10px 30px rgba(200, 162, 200, 0.5),
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+            overflow: hidden;
         }
-        /* Burbujas semi-transparentes */
-        header::before {
+        header::before, header::after {
             content: '';
             position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(173, 216, 230, 0.5);
+        }
+        header::before {
             top: 10%;
             left: 20%;
             width: 30px;
             height: 30px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(173, 216, 230, 0.5);
         }
         header::after {
-            content: '';
-            position: absolute;
             top: 50%;
             left: 70%;
             width: 20px;
             height: 20px;
+        }
+        .bubble1, .bubble2, .bubble3 {
+            position: absolute;
             background: rgba(255, 255, 255, 0.4);
             border-radius: 50%;
             box-shadow: 0 0 8px rgba(173, 216, 230, 0.5);
         }
-        .bubble1 {
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            width: 25px;
-            height: 25px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(173, 216, 230, 0.5);
-        }
-        .bubble2 {
-            position: absolute;
-            top: 70%;
-            left: 10%;
-            width: 15px;
-            height: 15px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            box-shadow: 0 0 6px rgba(173, 216, 230, 0.5);
-        }
-        .bubble3 {
-            position: absolute;
-            top: 40%;
-            left: 80%;
-            width: 18px;
-            height: 18px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(173, 216, 230, 0.5);
-        }
+        .bubble1 { top: 20%; left: 50%; width: 25px; height: 25px; }
+        .bubble2 { top: 70%; left: 10%; width: 15px; height: 15px; }
+        .bubble3 { top: 40%; left: 80%; width: 18px; height: 18px; }
         h1 {
-            color: #6a0dad; /* Violeta más oscuro para contraste */
+            color: #6a0dad;
             font-family: 'Rosellia', cursive;
             font-size: 42px;
             margin: 0;
             position: relative;
-            z-index: 1; /* Para que el texto esté encima de las burbujas */
+            z-index: 1;
         }
         header p {
             font-weight: bold;
             color: #333;
             position: relative;
-            z-index: 1; /* Para que el texto esté encima de las burbujas */
+            z-index: 1;
         }
         .product {
-            background-color: #ffe6f7; /* Rosa pastel claro */
+            background-color: #ffe6f7;
             border: 1px solid #ffb3d9;
             border-radius: 10px;
             padding: 15px;
@@ -103,31 +78,19 @@
             width: 300px;
             vertical-align: top;
             box-shadow: 
-                0 0 15px rgba(200, 162, 200, 0.6), /* Luz neon violeta pastel */
-                0 8px 20px rgba(200, 162, 200, 0.4), /* Sombra para efecto 3D */
-                inset 0 0 8px rgba(255, 255, 255, 0.1); /* Brillo interno para 3D */
+                0 0 15px rgba(200, 162, 200, 0.6),
+                0 8px 20px rgba(200, 162, 200, 0.4),
+                inset 0 0 8px rgba(255, 255, 255, 0.1);
         }
-        .product.added {
-            background-color: #A997FC; /* Color cambiado al agregar */
-        }
-        .product h3 {
-            color: #6a0dad;
-            font-family: Arial, sans-serif;
-            font-size: 17px;
-        }
-        select {
+        .product.added { background-color: #A997FC; }
+        .product h3 { color: #6a0dad; font-size: 17px; }
+        select, input {
             margin: 5px;
             padding: 8px;
             border-radius: 5px;
             border: 1px solid #ffb3d9;
             font-family: Arial;
             font-size: 14px;
-        }
-        input {
-            margin: 5px;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ffb3d9;
         }
         button {
             margin: 5px;
@@ -136,34 +99,24 @@
             border: none;
             cursor: pointer;
         }
-        .add-to-cart {
-            background-color: #c8a2c8; /* Violeta pastel */
-            color: white;
-            font-family: Arial;
-        }
-        .add-to-cart:hover {
-            background-color: #b894b8; /* Violeta pastel más oscuro para hover */
-        }
+        .add-to-cart { background-color: #c8a2c8; color: white; }
+        .add-to-cart:hover { background-color: #b894b8; }
         .edit-button {
-            background-color: #B2EDED; /* Color especificado */
+            background-color: #B2EDED;
             color: black;
-            font-family: Arial, sans-serif;
-            display: none; /* Oculto por defecto */
+            display: none;
         }
-        .edit-button:hover {
-            background-color: #A0D8D8; /* Hover más oscuro */
-        }
+        .edit-button:hover { background-color: #A0D8D8; }
         #cart-button {
             display: none;
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #B9B2ED; /* Color especificado */
+            background-color: #B9B2ED;
             color: black;
             padding: 15px;
-            border-radius: 10px; /* Rectangular con esquinas redondeadas */
+            border-radius: 10px;
             font-size: 18px;
-            font-family: Arial, sans-serif;
             animation: blink 1s infinite;
         }
         @keyframes blink {
@@ -178,50 +131,32 @@
             border-radius: 10px;
             padding: 20px;
             margin-top: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra negra para resaltar */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
-        #cart h3 {
-            font-family: Arial, sans-serif;
-            font-size: 20px;
-            color: #6a0dad;
-        }
-        #cart ul {
-            list-style: disc; /* Viñetas */
-            padding-left: 20px;
-        }
-        #cart li {
-            margin: 5px 0;
-        }
-        #cart p {
-            font-weight: bold;
-        }
-        #cart p span::after {
-            content: " ♥";
-        }
+        #cart h3 { color: #6a0dad; font-size: 20px; }
+        #cart ul { list-style: disc; padding-left: 20px; }
+        #cart li { margin: 5px 0; }
+        #cart p { font-weight: bold; }
+        #cart p span::after { content: " ♥"; }
         #cart button {
-            background-color: #2E8B57; /* Verde un poco más oscuro */
+            background-color: #2E8B57;
             color: white;
             font-weight: bold;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
         }
-        #cart button:hover {
-            background-color: #228B22; /* Verde más oscuro para hover */
-        }
+        #cart button:hover { background-color: #228B22; }
         #message-box {
             display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #c8a2c8; /* Violeta pastel */
+            background-color: #c8a2c8;
             color: white;
             padding: 20px;
             border-radius: 10px;
-            font-family: Arial, sans-serif;
             font-weight: bold;
             font-size: 18px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Sombra negra en 3D */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             z-index: 1000;
         }
     </style>
@@ -236,28 +171,26 @@
     </header>
 
     <div id="products">
-        <!-- Perfumina -->
+        <!-- Productos (idénticos a los tuyos) -->
         <div class="product" id="perfumina-product">
             <h3>Perfumina</h3>
             <select id="perfumina-flavor">
-                <option value="">Seleccionar fragancia </option>
+                <option value="">Seleccionar fragancia</option>
                 <option value="Citronella">Citronella</option>
                 <option value="Cherry">Cherry</option>
-                <option value="Lisoform">Lisform</option>
+                <option value="Lisoform">Lisoform</option>
             </select>
             <select id="perfumina-size">
                 <option value="0.5">0.5L - $800</option>
                 <option value="1">1L - $1000</option>
                 <option value="1.5">1.5L - $1300</option>
                 <option value="2">2L - $1500</option>
-                
             </select>
-            <input type="number" id="perfumina-qty" min="1" value="1" placeholder="Cantidad">
+            <input type="number" id="perfumina-qty" min="1" value="1">
             <button class="add-to-cart" id="perfumina-add" onclick="addToCart('Perfumina', document.getElementById('perfumina-flavor').value, document.getElementById('perfumina-size').value, document.getElementById('perfumina-qty').value)">Agregar al Carrito</button>
             <button class="edit-button" id="perfumina-edit" onclick="editProduct('Perfumina')">EDITAR</button>
         </div>
 
-        <!-- Jabón Líquido Ariel -->
         <div class="product" id="jabon-product">
             <h3>Jabón Líquido Ariel</h3>
             <select id="jabon-size">
@@ -265,14 +198,12 @@
                 <option value="1">1L - $1460</option>
                 <option value="1.5">1.5L - $1840</option>
                 <option value="2">2L - $2220</option>
-               
             </select>
-            <input type="number" id="jabon-qty" min="1" value="1" placeholder="Cantidad">
+            <input type="number" id="jabon-qty" min="1" value="1">
             <button class="add-to-cart" id="jabon-add" onclick="addToCart('Jabón Líquido Ariel', '', document.getElementById('jabon-size').value, document.getElementById('jabon-qty').value)">Agregar al Carrito</button>
             <button class="edit-button" id="jabon-edit" onclick="editProduct('Jabón Líquido Ariel')">EDITAR</button>
         </div>
 
-        <!-- Lavandina -->
         <div class="product" id="lavandina-product">
             <h3>Lavandina</h3>
             <select id="lavandina-size">
@@ -280,14 +211,12 @@
                 <option value="1">1L - $1150</option>
                 <option value="1.5">1.5L - $1450</option>
                 <option value="2">2L - $1780</option>
-               
             </select>
-            <input type="number" id="lavandina-qty" min="1" value="1" placeholder="Cantidad">
+            <input type="number" id="lavandina-qty" min="1" value="1">
             <button class="add-to-cart" id="lavandina-add" onclick="addToCart('Lavandina', '', document.getElementById('lavandina-size').value, document.getElementById('lavandina-qty').value)">Agregar al Carrito</button>
             <button class="edit-button" id="lavandina-edit" onclick="editProduct('Lavandina')">EDITAR</button>
         </div>
 
-        <!-- Detergente -->
         <div class="product" id="detergente-product">
             <h3>Detergente</h3>
             <select id="detergente-size">
@@ -295,9 +224,8 @@
                 <option value="1">1L - $1680</option>
                 <option value="1.5">1.5L - $2370</option>
                 <option value="2">2L - $3060</option>
-             
             </select>
-            <input type="number" id="detergente-qty" min="1" value="1" placeholder="Cantidad">
+            <input type="number" id="detergente-qty" min="1" value="1">
             <button class="add-to-cart" id="detergente-add" onclick="addToCart('Detergente', '', document.getElementById('detergente-size').value, document.getElementById('detergente-qty').value)">Agregar al Carrito</button>
             <button class="edit-button" id="detergente-edit" onclick="editProduct('Detergente')">EDITAR</button>
         </div>
@@ -323,8 +251,8 @@
             qty = parseInt(qty);
             let price = getPrice(product, size);
             let displayName = flavor ? `${product} (${flavor})` : product;
+
             if (editingProduct === product) {
-                // Actualizar item existente
                 let existing = cart.find(item => item.product.startsWith(product));
                 if (existing) {
                     total -= existing.price;
@@ -335,8 +263,13 @@
                     total += existing.price;
                 }
                 resetEditMode(product);
+
+                // 🔹 NUEVO: actualiza carrito automáticamente si está visible
+                if (document.getElementById('cart').style.display === 'block') {
+                    showCart();
+                }
+
             } else {
-                // Agregar nuevo
                 cart.push({ product: displayName, size, qty, price: price * qty });
                 total += price * qty;
                 showMessage();
@@ -348,18 +281,16 @@
 
         function getPrice(product, size) {
             const prices = {
-                'Perfumina': { '0.5': 200, '1': 400, '1.5': 600, '2': 800, '5': 2000 },
-                'Jabón Líquido Ariel': { '0.5': 380, '1': 760, '1.5': 1140, '2': 1520, '5': 3800 },
-                'Lavandina': { '0.5': 320, '1': 640, '1.5': 960, '2': 1280, '5': 3200 },
-                'Detergente': { '0.5': 690, '1': 1380, '1.5': 2070, '2': 2760, '5': 6900 }
+                'Perfumina': { '0.5': 800, '1': 1000, '1.5': 1300, '2': 1500 },
+                'Jabón Líquido Ariel': { '0.5': 1080, '1': 1460, '1.5': 1840, '2': 2220 },
+                'Lavandina': { '0.5': 820, '1': 1150, '1.5': 1450, '2': 1780 },
+                'Detergente': { '0.5': 1000, '1': 1680, '1.5': 2370, '2': 3060 }
             };
             return prices[product][size];
         }
 
         function updateCartButton() {
-            if (cart.length > 0) {
-                document.getElementById('cart-button').style.display = 'block';
-            }
+            if (cart.length > 0) document.getElementById('cart-button').style.display = 'block';
         }
 
         function updateEditButtons() {
@@ -375,11 +306,7 @@
             products.forEach(prod => {
                 let hasItem = cart.some(item => item.product.startsWith(prod));
                 let element = document.getElementById(prod.toLowerCase().replace(/ /g, '-') + '-product');
-                if (hasItem) {
-                    element.classList.add('added');
-                } else {
-                    element.classList.remove('added');
-                }
+                element.classList.toggle('added', hasItem);
             });
         }
 
@@ -387,15 +314,9 @@
             editingProduct = product;
             let existing = cart.find(item => item.product.startsWith(product));
             if (existing) {
-                // Cargar valores en los campos
                 let productId = product.toLowerCase().replace(/ /g, '-');
-                if (product === 'Perfumina') {
-                    let flavor = existing.product.match(/\$([^)]+)\$/);
-                    document.getElementById('perfumina-flavor').value = flavor ? flavor[1] : '';
-                }
                 document.getElementById(productId + '-size').value = existing.size;
                 document.getElementById(productId + '-qty').value = existing.qty;
-                // Cambiar botón a ACTUALIZAR
                 document.getElementById(productId + '-add').textContent = 'ACTUALIZAR';
             }
         }
@@ -404,20 +325,18 @@
             editingProduct = null;
             let productId = product.toLowerCase().replace(/ /g, '-');
             document.getElementById(productId + '-add').textContent = 'Agregar al Carrito';
-            // Resetear campos si quieres, pero por ahora los dejo
         }
 
         function showCart() {
             document.getElementById('cart').style.display = 'block';
-            document.getElementById('cart-items').innerHTML = '';
+            const list = document.getElementById('cart-items');
+            list.innerHTML = '';
             cart.forEach(item => {
                 let li = document.createElement('li');
                 li.textContent = `${item.product} - ${item.size}L x ${item.qty} = $${item.price}`;
-                document.getElementById('cart-items').appendChild(li);
+                list.appendChild(li);
             });
             document.getElementById('total').textContent = total;
-            // Desplazar a la sección del carrito
-            document.getElementById('cart').scrollIntoView({ behavior: 'smooth' });
         }
 
         function sendOrder() {
@@ -433,9 +352,7 @@
         function showMessage() {
             let msg = document.getElementById('message-box');
             msg.style.display = 'block';
-            setTimeout(() => {
-                msg.style.display = 'none';
-            }, 3000);
+            setTimeout(() => msg.style.display = 'none', 3000);
         }
     </script>
 </body>
