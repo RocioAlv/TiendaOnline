@@ -278,12 +278,16 @@
   let total = 0;
   let editingProduct = null;
 
-  function normalizeId(product) {
-    return product
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/ /g, '-');
+  // Mapea nombre de producto -> "clave" usada en los ids del HTML
+  function getElementKey(product) {
+    // Ajustá aquí si luego agregás productos con nombres distintos
+    const map = {
+      'Perfumina': 'perfumina',
+      'Jabón Líquido Ariel': 'jabon', // <- clave corta que coincide con tus ids
+      'Lavandina': 'lavandina',
+      'Detergente': 'detergente'
+    };
+    return map[product] || product.toLowerCase().replace(/\s+/g, '-').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
 
   function addToCart(product, flavor, size, qty) {
@@ -334,7 +338,8 @@
     const products = ['Perfumina', 'Jabón Líquido Ariel', 'Lavandina', 'Detergente'];
     products.forEach(prod => {
       let hasItem = cart.some(item => item.product.startsWith(prod));
-      let btn = document.getElementById(normalizeId(prod) + '-edit');
+      let key = getElementKey(prod);
+      let btn = document.getElementById(key + '-edit');
       if (btn) btn.style.display = hasItem ? 'inline-block' : 'none';
     });
   }
@@ -343,7 +348,8 @@
     const products = ['Perfumina', 'Jabón Líquido Ariel', 'Lavandina', 'Detergente'];
     products.forEach(prod => {
       let hasItem = cart.some(item => item.product.startsWith(prod));
-      let el = document.getElementById(normalizeId(prod) + '-product');
+      let key = getElementKey(prod);
+      let el = document.getElementById(key + '-product');
       if (el) el.classList.toggle('added', hasItem);
     });
   }
@@ -352,19 +358,23 @@
     editingProduct = product;
     let existing = cart.find(item => item.product.startsWith(product));
     if (existing) {
-      let productId = normalizeId(product);
+      let key = getElementKey(product);
 
       if (product === 'Perfumina') {
         let m = existing.product.match(/\(([^)]+)\)/);
         document.getElementById('perfumina-flavor').value = m ? m[1] : '';
       }
 
-      document.getElementById(productId + '-size').value = existing.size;
-      document.getElementById(productId + '-qty').value = existing.qty;
-      document.getElementById(productId + '-add').textContent = 'ACTUALIZAR';
+      const sizeEl = document.getElementById(key + '-size');
+      const qtyEl = document.getElementById(key + '-qty');
+      const addBtn = document.getElementById(key + '-add');
+
+      if (sizeEl) sizeEl.value = existing.size;
+      if (qtyEl) qtyEl.value = existing.qty;
+      if (addBtn) addBtn.textContent = 'ACTUALIZAR';
 
       setTimeout(() => {
-        let el = document.getElementById(productId + '-product');
+        let el = document.getElementById(key + '-product');
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 150);
     }
@@ -372,8 +382,8 @@
 
   function resetEditMode(product) {
     editingProduct = null;
-    let productId = normalizeId(product);
-    let addBtn = document.getElementById(productId + '-add');
+    let key = getElementKey(product);
+    let addBtn = document.getElementById(key + '-add');
     if (addBtn) addBtn.textContent = 'Agregar al Carrito';
   }
 
@@ -415,12 +425,14 @@
     setTimeout(() => msg.style.display = 'none', 1800);
   }
 
+  // arrancar
   updateCartButton();
   updateEditButtons();
   updateProductColors();
 </script>
 </body>
 </html>
+
 
 
 
