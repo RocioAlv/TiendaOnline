@@ -273,10 +273,18 @@
 
   <div id="message-box">¡AGREGADO! ♥</div>
 
- <script>
+<script>
   let cart = [];
   let total = 0;
   let editingProduct = null;
+
+  function normalizeId(product) {
+    return product
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ /g, '-');
+  }
 
   function addToCart(product, flavor, size, qty) {
     qty = parseInt(qty) || 1;
@@ -286,7 +294,6 @@
     let displayName = flavor ? `${product} (${flavor})` : product;
 
     if (editingProduct === product) {
-      // actualizar existente
       let existing = cart.find(item => item.product.startsWith(product));
       if (existing) {
         total -= existing.price;
@@ -298,7 +305,6 @@
       }
       resetEditMode(product);
     } else {
-      // agregar nuevo
       cart.push({ product: displayName, size, qty, price: price * qty });
       total += price * qty;
       showMessage();
@@ -307,7 +313,7 @@
     updateCartButton();
     updateEditButtons();
     updateProductColors();
-    showCart(); // actualiza y desplaza automáticamente el carrito
+    showCart();
   }
 
   function getPrice(product, size) {
@@ -328,7 +334,7 @@
     const products = ['Perfumina', 'Jabón Líquido Ariel', 'Lavandina', 'Detergente'];
     products.forEach(prod => {
       let hasItem = cart.some(item => item.product.startsWith(prod));
-      let btn = document.getElementById(prod.toLowerCase().replace(/ /g, '-') + '-edit');
+      let btn = document.getElementById(normalizeId(prod) + '-edit');
       if (btn) btn.style.display = hasItem ? 'inline-block' : 'none';
     });
   }
@@ -337,7 +343,7 @@
     const products = ['Perfumina', 'Jabón Líquido Ariel', 'Lavandina', 'Detergente'];
     products.forEach(prod => {
       let hasItem = cart.some(item => item.product.startsWith(prod));
-      let el = document.getElementById(prod.toLowerCase().replace(/ /g, '-') + '-product');
+      let el = document.getElementById(normalizeId(prod) + '-product');
       if (el) el.classList.toggle('added', hasItem);
     });
   }
@@ -346,22 +352,17 @@
     editingProduct = product;
     let existing = cart.find(item => item.product.startsWith(product));
     if (existing) {
-      let productId = product.toLowerCase().replace(/ /g, '-');
+      let productId = normalizeId(product);
 
-      // Si tiene sabor (Perfumina), extraerlo
       if (product === 'Perfumina') {
         let m = existing.product.match(/\(([^)]+)\)/);
         document.getElementById('perfumina-flavor').value = m ? m[1] : '';
       }
 
-      // Cargar tamaño y cantidad para todos
       document.getElementById(productId + '-size').value = existing.size;
       document.getElementById(productId + '-qty').value = existing.qty;
-
-      // Cambiar texto del botón a "ACTUALIZAR"
       document.getElementById(productId + '-add').textContent = 'ACTUALIZAR';
 
-      // Resaltar el producto (ya está manejado por .added)
       setTimeout(() => {
         let el = document.getElementById(productId + '-product');
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -371,7 +372,7 @@
 
   function resetEditMode(product) {
     editingProduct = null;
-    let productId = product.toLowerCase().replace(/ /g, '-');
+    let productId = normalizeId(product);
     let addBtn = document.getElementById(productId + '-add');
     if (addBtn) addBtn.textContent = 'Agregar al Carrito';
   }
@@ -420,5 +421,6 @@
 </script>
 </body>
 </html>
+
 
 
