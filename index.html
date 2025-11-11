@@ -408,22 +408,23 @@
     }, 120);
   }
 
-  function sendOrder() {
-    if (cart.length === 0) { alert('El carrito está vacío'); return; }
-    let message = 'Hola, quiero hacer un pedido:%0A';
-    cart.forEach(item => {
-      message += `- ${item.product} (${item.size}L) x ${item.qty} = $${item.price}%0A`;
-    });
-    message += `Total: $${total}`;
-    let url = `https://wa.me/3364326790?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+function sendOrder() {
+  if (cart.length === 0) {
+    alert('El carrito está vacío');
+    return;
   }
 
-  function showMessage() {
-    let msg = document.getElementById('message-box');
-    msg.style.display = 'block';
-    setTimeout(() => msg.style.display = 'none', 1800);
-  }
+  let message = "Hola, quiero hacerte un pedido de:\n\n";
+  cart.forEach(item => {
+    message += `• ${item.product} (${item.size}L) x ${item.qty} = $${item.price}\n`;
+  });
+  message += `\n🧾 Total: $${total}`;
+
+  // codificamos recién al final para que se envíe bien en WhatsApp
+  let url = `https://wa.me/3364326790?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+}
+
 
   // arrancar
   updateCartButton();
@@ -432,6 +433,7 @@
 </script>
 </body>
 </html>
+
 
 
 
