@@ -287,137 +287,144 @@
   <div id="message-box">¡AGREGADO! ♥</div>
 
   <script>
-    let cart = [];
-    let total = 0;
-    let editingProduct = null;
+  let cart = [];
+  let total = 0;
+  let editingProduct = null;
 
-    function addToCart(product, flavor, size, qty) {
-      qty = parseInt(qty) || 1;
-      if (!size) { alert('Seleccioná un tamaño'); return; }
-      let price = getPrice(product, size);
-      if (price === undefined) { alert('Precio no definido'); return; }
-      let displayName = flavor ? `${product} (${flavor})` : product;
+  function addToCart(product, flavor, size, qty) {
+    qty = parseInt(qty) || 1;
+    if (!size) { alert('Seleccioná un tamaño'); return; }
+    let price = getPrice(product, size);
+    if (price === undefined) { alert('Precio no definido'); return; }
+    let displayName = flavor ? `${product} (${flavor})` : product;
 
-      if (editingProduct === product) {
-        let existing = cart.find(i => i.product.startsWith(product));
-        if (existing) {
-          total -= existing.price;
-          existing.product = displayName;
-          existing.size = size;
-          existing.qty = qty;
-          existing.price = price * qty;
-          total += existing.price;
-        }
-        resetEditMode(product);
-      } else {
-        cart.push({ product: displayName, size, qty, price: price * qty });
-        total += price * qty;
-        showMessage();
-      }
-      updateCartButton();
-      updateEditButtons();
-      updateProductColors();
-      showCart();
-    }
-
-    function getPrice(product, size) {
-      const prices = {
-        'Perfumina': { '0.5': 800, '1': 1000, '1.5': 1300, '2': 1500 },
-        'Jabón Líquido Ariel': { '0.5': 1080, '1': 1460, '1.5': 1840, '2': 2220 },
-        'Lavandina': { '0.5': 820, '1': 1150, '1.5': 1450, '2': 1780 },
-        'Detergente': { '0.5': 1000, '1': 1680, '1.5': 2370, '2': 3060 }
-      };
-      return prices[product]?.[size];
-    }
-
-    function updateCartButton() {
-      document.getElementById('cart-button').style.display = cart.length ? 'block' : 'none';
-    }
-
-    function updateEditButtons() {
-      const products = ['Perfumina', 'Jabón Líquido Ariel', 'Lavandina', 'Detergente'];
-      products.forEach(prod => {
-        let hasItem = cart.some(i => i.product.startsWith(prod));
-        let btn = document.getElementById(prod.toLowerCase().replace(/ /g, '-') + '-edit');
-        if (btn) btn.style.display = hasItem ? 'inline-block' : 'none';
-      });
-    }
-
-    function updateProductColors() {
-      const products = ['Perfumina', 'Jabón Líquido Ariel', 'Lavandina', 'Detergente'];
-      products.forEach(prod => {
-        let hasItem = cart.some(i => i.product.startsWith(prod));
-        let el = document.getElementById(prod.toLowerCase().replace(/ /g, '-') + '-product');
-        if (el) el.classList.toggle('added', hasItem);
-      });
-    }
-
-    function editProduct(product) {
-      editingProduct = product;
+    if (editingProduct === product) {
       let existing = cart.find(i => i.product.startsWith(product));
       if (existing) {
-        let id = product.toLowerCase().replace(/ /g, '-');
-        if (product === 'Perfumina') {
-          let m = existing.product.match(/\(([^)]+)\)/);
-          document.getElementById('perfumina-flavor').value = m ? m[1] : '';
-        }
-        document.getElementById(id + '-size').value = existing.size;
-        document.getElementById(id + '-qty').value = existing.qty;
-        document.getElementById(id + '-add').textContent = 'ACTUALIZAR';
-        setTimeout(() => document.getElementById(id + '-product')?.scrollIntoView({behavior:'smooth', block:'center'}), 150);
+        total -= existing.price;
+        existing.product = displayName;
+        existing.size = size;
+        existing.qty = qty;
+        existing.price = price * qty;
+        total += existing.price;
       }
+      resetEditMode(product);
+    } else {
+      cart.push({ product: displayName, size, qty, price: price * qty });
+      total += price * qty;
+      showMessage();
     }
-
-    function resetEditMode(product) {
-      editingProduct = null;
-      let id = product.toLowerCase().replace(/ /g, '-');
-      document.getElementById(id + '-add').textContent = 'Agregar al Carrito';
-    }
-
-    function deleteFromCart(index) {
-      total -= cart[index].price;
-      cart.splice(index, 1);
-      updateCartButton();
-      updateEditButtons();
-      updateProductColors();
-      showCart();
-    }
-
-    function showCart() {
-      const div = document.getElementById('cart');
-      div.style.display = 'block';
-      const list = document.getElementById('cart-items');
-      list.innerHTML = '';
-      if (!cart.length) list.innerHTML = '<li>(vacío)</li>';
-      else cart.forEach((item, i) => {
-        let li = document.createElement('li');
-        li.innerHTML = `${item.product} - ${item.size}L x ${item.qty} = $${item.price}
-          <button class="delete-btn" onclick="deleteFromCart(${i})">✖</button>`;
-        list.appendChild(li);
-      });
-      document.getElementById('total').textContent = total;
-    }
-
-    function sendOrder() {
-      if (!cart.length) { alert('El carrito está vacío'); return; }
-      let message = 'Hola! 👋 Quiero hacerte un pedido de:\n\n';
-      cart.forEach(item => message += `• ${item.product} (${item.size}L) x ${item.qty} = $${item.price}\n`);
-      message += `\nTotal: $${total}\n\n¡Gracias! 😊`;
-      let url = `https://wa.me/3364326790?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
-    }
-
-    function showMessage() {
-      let msg = document.getElementById('message-box');
-      msg.style.display = 'block';
-      setTimeout(() => msg.style.display = 'none', 1800);
-    }
-
     updateCartButton();
     updateEditButtons();
     updateProductColors();
-  </script>
+    showCart();
+  }
+
+  function getPrice(product, size) {
+    const prices = {
+      'Perfumina': { '0.5': 800, '1': 1000, '1.5': 1300, '2': 1500 },
+      'Jabón Líquido Ariel': { '0.5': 1080, '1': 1460, '1.5': 1840, '2': 2220 },
+      'Lavandina': { '0.5': 820, '1': 1150, '1.5': 1450, '2': 1780 },
+      'Detergente': { '0.5': 1000, '1': 1680, '1.5': 2370, '2': 3060 }
+    };
+    return prices[product]?.[size];
+  }
+
+  function updateCartButton() {
+    document.getElementById('cart-button').style.display = cart.length ? 'block' : 'none';
+  }
+
+  function updateEditButtons() {
+    const products = ['Perfumina', 'Jabón Líquido Ariel', 'Lavandina', 'Detergente'];
+    products.forEach(prod => {
+      let hasItem = cart.some(i => i.product.startsWith(prod));
+      let btn = document.getElementById(prod.toLowerCase().replace(/ /g, '-') + '-edit');
+      if (btn) btn.style.display = hasItem ? 'inline-block' : 'none';
+    });
+  }
+
+  function updateProductColors() {
+    const products = ['Perfumina', 'Jabón Líquido Ariel', 'Lavandina', 'Detergente'];
+    products.forEach(prod => {
+      let hasItem = cart.some(i => i.product.startsWith(prod));
+      let el = document.getElementById(prod.toLowerCase().replace(/ /g, '-') + '-product');
+      if (el) el.classList.toggle('added', hasItem);
+    });
+  }
+
+  function editProduct(product) {
+    editingProduct = product;
+    let existing = cart.find(i => i.product.startsWith(product));
+    if (existing) {
+      let id = product.toLowerCase().replace(/ /g, '-');
+      if (product === 'Perfumina') {
+        let m = existing.product.match(/\(([^)]+)\)/);
+        document.getElementById('perfumina-flavor').value = m ? m[1] : '';
+      }
+      document.getElementById(id + '-size').value = existing.size;
+      document.getElementById(id + '-qty').value = existing.qty;
+      document.getElementById(id + '-add').textContent = 'ACTUALIZAR';
+      setTimeout(() => document.getElementById(id + '-product')?.scrollIntoView({behavior:'smooth', block:'center'}), 150);
+    }
+  }
+
+  function resetEditMode(product) {
+    editingProduct = null;
+    let id = product.toLowerCase().replace(/ /g, '-');
+    document.getElementById(id + '-add').textContent = 'Agregar al Carrito';
+  }
+
+  function deleteFromCart(index) {
+    total -= cart[index].price;
+    cart.splice(index, 1);
+    updateCartButton();
+    updateEditButtons();
+    updateProductColors();
+    showCart();
+  }
+
+  function showCart() {
+    const div = document.getElementById('cart');
+    div.style.display = 'block';
+    const list = document.getElementById('cart-items');
+    list.innerHTML = '';
+    if (!cart.length) list.innerHTML = '<li>(vacío)</li>';
+    else cart.forEach((item, i) => {
+      let li = document.createElement('li');
+      li.innerHTML = `${item.product} - ${item.size}L x ${item.qty} = $${item.price}
+        <button class="delete-btn" onclick="deleteFromCart(${i})">✖</button>`;
+      list.appendChild(li);
+    });
+    document.getElementById('total').textContent = total;
+  }
+
+  function sendOrder() {
+    if (!cart.length) { alert('El carrito está vacío'); return; }
+    let message = 'Hola! 👋 Quiero hacerte un pedido de:\n\n';
+    cart.forEach(item => message += `• ${item.product} (${item.size}L) x ${item.qty} = $${item.price}\n`);
+    message += `\nTotal: $${total}\n\n¡Gracias! 😊`;
+    let url = `https://wa.me/3364326790?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
+
+  function showMessage() {
+    let msg = document.getElementById('message-box');
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 1800);
+  }
+
+  updateCartButton();
+  updateEditButtons();
+  updateProductColors();
+
+  // 👇 ESTA ES LA NUEVA LÍNEA que hace que el botón "Ver Carrito" desplace hacia abajo:
+  document.getElementById("cart-button").addEventListener("click", function() {
+      document.getElementById("cart").scrollIntoView({ behavior: "smooth" });
+  });
+</script>
+
 </body>
 </html>
+
 
 
